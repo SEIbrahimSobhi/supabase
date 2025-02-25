@@ -491,22 +491,22 @@
         try {
           // استخدام Supabase لإدخال بيانات المستخدم في جدول "pending_users"
           const { data, error } = await supabase
-            .from('pending_users')
-            .insert([
-              {
-                username: tempUserData.username,
-                fullName: tempUserData.fullName,
-                phone: tempUserData.phone,
-                fatherPhone: tempUserData.fatherPhone,
-                motherPhone: tempUserData.motherPhone,
-                governorate: tempUserData.governorate,
-                email: tempUserData.email,
-                password: tempUserData.password,  // يُفضل تشفير كلمة المرور في الإنتاج.
-                emailVerified: true,
-                createdAt: new Date().toISOString(),
-                accountStatus: "pending"  // الحالة: في انتظار الموافقة.
-              }
-            ]);
+  .from('pending_users')
+  .insert([
+    {
+      username: tempUserData.username,
+      fullname: tempUserData.fullName,       // استخدم fullname (كل الحروف صغيرة)
+      phone: tempUserData.phone,
+      fatherphone: tempUserData.fatherPhone,   // كل الحروف صغيرة
+      motherphone: tempUserData.motherPhone,
+      governorate: tempUserData.governorate,
+      email: tempUserData.email,
+      password: tempUserData.password,         // يُفضل تشفيرها في البيئات الإنتاجية
+      email_verified: true,                    // كل الحروف صغيرة مع _ 
+      created_at: new Date().toISOString(),    // نفس الشيء هنا
+      account_status: "pending"                // كل الحروف صغيرة مع _
+    }
+  ]);
           if (error) {
             showNotification("error", "فشل إرسال طلب الحساب: " + error.message);
           } else {
