@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم المسؤول</title>
+  <style>
+    /* إعادة تعيين الأنماط الافتراضية */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      direction: rtl;
+      line-height: 1.6;
+      padding-bottom: 50px;
+    }
+    header {
+      background: #4a90e2;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    nav button {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav button.active {
+      background: #4a90e2;
+      color: #fff;
+      border-color: #4a90e2;
+    }
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      margin-bottom: 0.5rem;
+      color: #4a90e2;
+    }
+    .bulk-actions {
+      margin-bottom: 0.5rem;
+      text-align: right;
+    }
+    .bulk-actions button {
+      padding: 0.5rem 1rem;
+      margin: 0 0.3rem;
+      border: none;
+      border-radius: 4px;
+      background: #4a90e2;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .bulk-actions button:hover {
+      background: #357abd;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background: #f7f7f7;
+    }
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+    .action-btn {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin: 0 2px;
+    }
+    .accept-btn {
+      background: #28a745;
+      color: #fff;
+    }
+    .accept-btn:hover {
+      background: #218838;
+    }
+    .reject-btn, .delete-btn {
+      background: #dc3545;
+      color: #fff;
+    }
+    .reject-btn:hover, .delete-btn:hover {
+      background: #c82333;
+    }
+    /* تفاصيل السطر الإضافي */
+    .details-row {
+      background: #e9f3ff;
+    }
+    .details-cell {
+      padding: 1rem;
+      text-align: right;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .expand-icon {
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+    .rotate {
+      transform: rotate(90deg);
+    }
+    /* استجابة الشاشة */
+    @media (max-width: 768px) {
+      th, td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+      nav button {
+        font-size: 0.9rem;
+      }
+      .bulk-actions {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>لوحة تحكم المسؤول</h1>
+  </header>
+  <nav>
+    <button id="pendingTab" class="active">طلبات التسجيل المعلقة</button>
+    <button id="activatedTab">الحسابات المفعلة</button>
+  </nav>
+  <div class="container">
+    <!-- قسم طلبات التسجيل المعلقة -->
+    <section id="pendingSection">
+      <h2>طلبات التسجيل المعلقة</h2>
+      <div class="bulk-actions">
+        <button id="acceptSelectedPending">قبول المحدد</button>
+        <button id="rejectSelectedPending">رفض المحدد</button>
+      </div>
+      <table id="pendingTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAllPending" /></th>
+            <th>اسم المستخدم</th>
+            <th>الاسم الكامل</th>
+            <th>البريد الإلكتروني</th>
+            <th>الهاتف</th>
+            <th>التفاصيل</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- سيتم ملء البيانات ديناميكيًا -->
+        </tbody>
+      </table>
+    </section>
+    <!-- قسم الحسابات المفعلة -->
+    <section id="activatedSection" style="display: none;">
+      <h2>الحسابات المفعلة</h2>
+      <div class="bulk-actions">
+        <button id="deleteSelectedActivated">حذف المحدد</button>
+      </div>
+      <table id="activatedTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAllActivated" /></th>
+            <th>اسم المستخدم</th>
+            <th>الاسم الكامل</th>
+            <th>البريد الإلكتروني</th>
+            <th>الهاتف</th>
+            <th>التفاصيل</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- سيتم ملء البيانات ديناميكيًا -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- سكريبت لوحة تحكم المسؤول باستخدام Supabase -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    // إعدادات Supabase (تعديل القيم حسب إعدادات مشروعك)
+    const supabaseUrl = 'https://uutqempmnjcnqgrzrzqq.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1dHFlbXBtbmpjbnFncnpyenFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1MTUzMTAsImV4cCI6MjA1NjA5MTMxMH0.6E-gsoT9hq_-VsL_rrQN8hEmzmVz-0gcrcf548esSLw';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    // دوال لإنشاء صف التفاصيل وتبديل عرضه
+    function createDetailsRow(detailsHtml) {
+      const detailsRow = document.createElement('tr');
+      detailsRow.classList.add('details-row');
+      const detailsCell = document.createElement('td');
+      detailsCell.colSpan = 7;
+      detailsCell.classList.add('details-cell');
+      detailsCell.innerHTML = detailsHtml;
+      detailsRow.appendChild(detailsCell);
+      return detailsRow;
+    }
+
+    function toggleDetails(row, detailsHtml) {
+      if (row.nextElementSibling && row.nextElementSibling.classList.contains('details-row')) {
+        row.parentNode.removeChild(row.nextElementSibling);
+        row.querySelector('.expand-icon').classList.remove('rotate');
+      } else {
+        const detailsRow = createDetailsRow(detailsHtml);
+        row.parentNode.insertBefore(detailsRow, row.nextElementSibling);
+        row.querySelector('.expand-icon').classList.add('rotate');
+      }
+    }
+
+    // التأكد من صلاحية المسؤول عبر Supabase Auth
+    async function checkAdmin() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || user.email !== 'seebrahemsobhy@gmail.com') {
+        alert('تم رفض الوصول.');
+        window.location.href = '/login.html';
+      } else {
+        console.log('مرحبًا يا مسؤول!');
+        fetchPendingUsers();
+        fetchActivatedUsers();
+      }
+    }
+    checkAdmin();
+
+    // جلب طلبات التسجيل المعلقة من جدول "pending_users"
+    async function fetchPendingUsers() {
+      try {
+        const { data, error } = await supabase
+          .from('pending_users')
+          .select('*');
+        if (error) throw error;
+        const pendingTableBody = document.querySelector('#pendingTable tbody');
+        pendingTableBody.innerHTML = '';
+        data.forEach((item) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><input type="checkbox" class="pending-checkbox" data-id="${item.id}" /></td>
+            <td>${item.username}</td>
+            <td>${item.fullname}</td>
+            <td>${item.email}</td>
+            <td>${item.phone}</td>
+            <td><span class="expand-icon">&#9654;</span></td>
+            <td>
+              <button class="action-btn accept-btn" onclick="acceptUser('${item.id}')">قبول</button>
+              <button class="action-btn reject-btn" onclick="rejectUser('${item.id}')">رفض</button>
+            </td>
+          `;
+          row.querySelector('.expand-icon').addEventListener('click', () => {
+            const detailsHtml = `
+              <strong>رقم هاتف الأب:</strong> ${item.fatherphone}<br/>
+              <strong>رقم هاتف الأم:</strong> ${item.motherphone}<br/>
+              <strong>المحافظة:</strong> ${item.governorate}<br/>
+              <strong>رمز التحقق:</strong> ${item.verificationcode}
+            `;
+            toggleDetails(row, detailsHtml);
+          });
+          pendingTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('خطأ في جلب طلبات التسجيل:', error);
+      }
+    }
+
+    // جلب الحسابات المفعلة من جدول "users"
+    async function fetchActivatedUsers() {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('*');
+        if (error) throw error;
+        const activatedTableBody = document.querySelector('#activatedTable tbody');
+        activatedTableBody.innerHTML = '';
+        data.forEach((item) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><input type="checkbox" class="activated-checkbox" data-id="${item.id}" /></td>
+            <td>${item.username}</td>
+            <td>${item.fullname}</td>
+            <td>${item.email}</td>
+            <td>${item.phone}</td>
+            <td><span class="expand-icon">&#9654;</span></td>
+            <td>
+              <button class="action-btn delete-btn" onclick="deleteActivatedUser('${item.id}')">حذف</button>
+            </td>
+          `;
+          row.querySelector('.expand-icon').addEventListener('click', () => {
+            const detailsHtml = `
+              <strong>رقم هاتف الأب:</strong> ${item.fatherphone}<br/>
+              <strong>رقم هاتف الأم:</strong> ${item.motherphone}<br/>
+              <strong>المحافظة:</strong> ${item.governorate}<br/>
+              ${item.activatedat ? `<strong>تاريخ التفعيل:</strong> ${item.activatedat}` : ''}
+            `;
+            toggleDetails(row, detailsHtml);
+          });
+          activatedTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('خطأ في جلب الحسابات المفعلة:', error);
+      }
+    }
+
+    // قبول المستخدم: نقل سجل من "pending_users" إلى "users"
+    window.acceptUser = async function(userId) {
+      try {
+        // جلب بيانات المستخدم من جدول pending_users
+        const { data: pendingUser, error } = await supabase
+          .from('pending_users')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        if (error) throw error;
+        // إدخال البيانات في جدول users مع إضافة حالة التفعيل وتاريخ التفعيل
+        const { error: insertError } = await supabase
+          .from('users')
+          .insert([{
+            ...pendingUser,
+            account_status: 'activated',
+            activatedat: new Date().toISOString()
+          }]);
+        if (insertError) throw insertError;
+        // حذف السجل من جدول pending_users
+        const { error: deleteError } = await supabase
+          .from('pending_users')
+          .delete()
+          .eq('id', userId);
+        if (deleteError) throw deleteError;
+        showNotification('success', 'تم قبول المستخدم.');
+        fetchPendingUsers();
+        fetchActivatedUsers();
+      } catch (error) {
+        console.error('خطأ في قبول المستخدم:', error);
+        showNotification('error', 'حدث خطأ أثناء قبول المستخدم.');
+      }
+    };
+
+    // رفض المستخدم: حذف السجل من جدول pending_users
+    window.rejectUser = async function(userId) {
+      try {
+        const { error } = await supabase
+          .from('pending_users')
+          .delete()
+          .eq('id', userId);
+        if (error) throw error;
+        showNotification('success', 'تم رفض المستخدم.');
+        fetchPendingUsers();
+      } catch (error) {
+        console.error('خطأ في رفض المستخدم:', error);
+        showNotification('error', 'حدث خطأ أثناء رفض المستخدم.');
+      }
+    };
+
+    // حذف المستخدم من جدول users
+    window.deleteActivatedUser = async function(userId) {
+      try {
+        const { error } = await supabase
+          .from('users')
+          .delete()
+          .eq('id', userId);
+        if (error) throw error;
+        showNotification('success', 'تم حذف المستخدم.');
+        fetchActivatedUsers();
+      } catch (error) {
+        console.error('خطأ في حذف المستخدم:', error);
+        showNotification('error', 'حدث خطأ أثناء حذف المستخدم.');
+      }
+    };
+
+    // الإجراءات الجماعية
+    document.getElementById('acceptSelectedPending').addEventListener('click', async () => {
+      const checkboxes = document.querySelectorAll('.pending-checkbox:checked');
+      const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+      for (const id of ids) {
+        await window.acceptUser(id);
+      }
+    });
+
+    document.getElementById('rejectSelectedPending').addEventListener('click', async () => {
+      const checkboxes = document.querySelectorAll('.pending-checkbox:checked');
+      const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+      for (const id of ids) {
+        await window.rejectUser(id);
+      }
+    });
+
+    document.getElementById('deleteSelectedActivated').addEventListener('click', async () => {
+      const checkboxes = document.querySelectorAll('.activated-checkbox:checked');
+      const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+      for (const id of ids) {
+        await window.deleteActivatedUser(id);
+      }
+    });
+
+    // وظيفة "تحديد الكل" لكل جدول
+    document.getElementById('selectAllPending').addEventListener('change', function() {
+      const checked = this.checked;
+      document.querySelectorAll('.pending-checkbox').forEach(cb => cb.checked = checked);
+    });
+
+    document.getElementById('selectAllActivated').addEventListener('change', function() {
+      const checked = this.checked;
+      document.querySelectorAll('.activated-checkbox').forEach(cb => cb.checked = checked);
+    });
+
+    // دالة إشعار بسيطة
+    function showNotification(type, message) {
+      const notif = document.createElement('div');
+      notif.textContent = message;
+      notif.style.position = 'fixed';
+      notif.style.bottom = '20px';
+      notif.style.right = '20px';
+      notif.style.padding = '10px 20px';
+      notif.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+      notif.style.color = '#fff';
+      notif.style.borderRadius = '5px';
+      notif.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+      notif.style.zIndex = 1000;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 3000);
+    }
+  </script>
+</body>
+</html>
