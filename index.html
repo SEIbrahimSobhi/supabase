@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Mr.Tarek-طلب إنشاء حساب</title>
+  <!-- ملف css -->
+  <link rel="stylesheet" href="assets/css/auth.css">
+  <!-- استدعاء خط Tajawal من Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <!-- استدعاء Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- ايقونة الموقع -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- مكتبات الاشعارات -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <!-- تهيئة EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("K0gXc0-X0CONTIkX_");
+    })();
+  </script>
+</head>
+<body>
+  <!-- صورة الموبايل (للشاشات الصغيرة فقط) -->
+  <div class="mobile-image-container">
+    <img src="assets/img/register.jpeg" alt="صورة المنصة">
+    <div class="overlay"></div>
+  </div>
+
+  <!-- الحاوية الرئيسية للشاشات الكبيرة -->
+  <div class="main-desktop">
+    <!-- صورة الديسكتوب (للشاشات الكبيرة فقط) -->
+    <div class="desktop-image-container">
+      <img src="assets/img/register.jpeg" alt="صورة المنصة">
+      <div class="overlay"></div>
+    </div>
+    <!-- قسم النموذج -->
+    <div class="form-container">
+      <!-- صفحة التسجيل -->
+      <div class="form-wrapper" id="registration-page">
+        <div class="form-header">
+          <h1>
+            <span class="white">طلب</span> <span class="blue">إنشاء حساب:</span>
+          </h1>
+          <p>ادخل بياناتك بشكل صحيح وسيتم التواصل معك بعد مراجعة الطلب لتفعيل الحساب.</p>
+        </div>
+        <form id="signup-form">
+          <!-- صف أول: الاسم الأول والاسم الثاني -->
+          <div class="row">
+            <div class="form-group">
+              <input type="text" id="first-name" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-user"></i>
+              <label for="first-name" class="form-label">الاسم الأول</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="second-name" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-user"></i>
+              <label for="second-name" class="form-label">الاسم الثاني</label>
+            </div>
+          </div>
+          <!-- صف ثاني: الاسم الثالث والاسم الأخير -->
+          <div class="row small-gap">
+            <div class="form-group">
+              <input type="text" id="third-name" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-user"></i>
+              <label for="third-name" class="form-label">الاسم الثالث</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="last-name" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-user"></i>
+              <label for="last-name" class="form-label">الاسم الأخير</label>
+            </div>
+          </div>
+
+          <!-- حقل اسم المستخدم -->
+          <div class="form-group">
+            <input type="text" id="username" class="form-control" placeholder=" " required>
+            <i class="form-icon fas fa-user"></i>
+            <label for="username" class="form-label">اسم المستخدم</label>
+          </div>
+
+          <!-- حقل رقم الهاتف الأساسي -->
+          <div class="form-group">
+            <input type="tel" id="phone" class="form-control" placeholder=" " required>
+            <i class="form-icon fas fa-phone"></i>
+            <label for="phone" class="form-label">رقم الهاتف</label>
+          </div>
+          <!-- صف: رقم هاتف الأب ورقم هاتف الأم -->
+          <div class="row">
+            <div class="form-group">
+              <input type="tel" id="father-phone" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-phone"></i>
+              <label for="father-phone" class="form-label">رقم هاتف الأب</label>
+            </div>
+            <div class="form-group">
+              <input type="tel" id="mother-phone" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-phone"></i>
+              <label for="mother-phone" class="form-label">رقم هاتف الأم</label>
+            </div>
+          </div>
+          <!-- حقل اختيار المحافظة -->
+          <div class="form-group governorate-group">
+            <div class="governorate-select-wrapper">
+              <select id="governorate" class="governorate-select" required>
+                <option value="الغربية" selected>الغربية</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="السويس">السويس</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="دمياط">دمياط</option>
+                <option value="الفيوم">الفيوم</option>
+                <option value="بني سويف">بني سويف</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="الأقصر">الأقصر</option>
+                <option value="أسوان">أسوان</option>
+                <option value="البحر الأحمر">البحر الأحمر</option>
+                <option value="الوادي الجديد">الوادي الجديد</option>
+                <option value="مطروح">مطروح</option>
+                <option value="شمال سيناء">شمال سيناء</option>
+                <option value="جنوب سيناء">جنوب سيناء</option>
+              </select>
+              <label for="governorate" class="form-label">اختر المحافظة</label>
+              <i class="form-icon fas fa-map-marker-alt"></i>
+            </div>
+          </div>
+          <!-- حقل البريد الإلكتروني -->
+          <div class="form-group">
+            <input type="email" id="email" class="form-control" placeholder=" " required>
+            <i class="form-icon fas fa-envelope"></i>
+            <label for="email" class="form-label">البريد الإلكتروني</label>
+          </div>
+          <!-- صف: كلمة المرور وتأكيد كلمة المرور -->
+          <div class="row">
+            <div class="form-group">
+              <input type="password" id="password" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-lock"></i>
+              <label for="password" class="form-label">كلمة المرور</label>
+            </div>
+            <div class="form-group">
+              <input type="password" id="confirm-password" class="form-control" placeholder=" " required>
+              <i class="form-icon fas fa-lock"></i>
+              <label for="confirm-password" class="form-label">تأكيد كلمة المرور</label>
+            </div>
+          </div>
+          <!-- حقل المسألة الرياضية -->
+          <div class="form-group" id="math-challenge-group">
+            <span id="math-question" style="position: absolute; right: 40px; top: -20px; color: #3498db; font-size: 14px;"></span>
+            <input type="text" id="math-answer" class="form-control" placeholder=" " required>
+            <i class="form-icon fas fa-calculator"></i>
+            <label for="math-answer" class="form-label"></label>
+          </div>
+          <!-- مجموعة الأزرار -->
+          <div class="row" style="justify-content: center; gap: 20px; margin-bottom: 20px;">
+            <button type="submit" class="submit-btn">طلب إنشاء حساب</button>
+            <button type="button" class="video-btn" onclick="window.location.href='video.html'">طريقة إنشاء حساب على المنصة</button>
+          </div>
+          <!-- رابط تسجيل الدخول -->
+          <div class="login-link">
+            <span>يوجد لديك حساب بالفعل؟</span>
+            <a href="login.html">ادخل إلى حسابك الان!</a>
+          </div>
+          <p class="success-message" id="success-message"></p>
+        </form>
+      </div>
+      <!-- صفحة تأكيد البريد الإلكتروني (مخفية مبدئيًا) -->
+      <div class="form-wrapper" id="email-confirmation-page" style="display: none;">
+        <div class="form-header">
+          <h1>
+            <i class="fas fa-envelope" style="color: black; margin-right: 10px;"></i>
+            <span class="white">تأكيد</span> <span class="blue">:البريد الإلكتروني</span>
+          </h1>
+          <p>تم إرسال كود التأكيد إلى بريدك الإلكتروني، يرجى إدخال الكود أدناه لتأكيد حسابك.</p>
+          <p style="text-align:center; color:#3498db;" id="display-code"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" id="confirmation-code" class="form-control" placeholder=" " required>
+          <i class="form-icon fas fa-key"></i>
+          <label for="confirmation-code" class="form-label">أدخل كود التأكيد</label>
+        </div>
+        <div style="display:flex; justify-content: center; gap: 20px; margin-top: 20px;">
+          <button class="submit-btn" id="confirm-btn">تأكيد</button>
+        </div>
+        <p class="success-message" id="confirmation-success" style="display: none;">تم تأكيد البريد الإلكتروني بنجاح!</p>
+      </div>
+      <!-- صفحة حالة الحساب بعد تأكيد البريد الإلكتروني -->
+      <div class="form-wrapper" id="account-status-page" style="display: none;">
+        <div class="form-header">
+          <h1>
+            <span class="white">أهلاً</span> <span class="blue" id="display-name"></span>
+          </h1>
+          <p>
+            لقد تم إنشاء حسابك بنجاح، وسيقوم المسؤولين بمراجعة بياناتك خلال 48 ساعة.
+            سيتم إرسال رسالة إلى بريدك الإلكتروني توضح حالة الحساب مع التفاصيل في حال تم رفضه.
+            وفي حالة قبول الحساب، يمكنك تسجيل الدخول والوصول إلى حسابك.
+          </p>
+        </div>
+        <div style="text-align: center;">
+          <button type="button" class="submit-btn" onclick="window.location.href='login.html'">
+            تسجيل الدخول
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/img/favicon.png" alt="Logo">
+        <div class="brand-text">
+          <h2>Mr.Tarek</h2>
+          <h4>منصه الرياضيات</h4>
+        </div>
+      </div>
+      <div class="footer-support">
+        <h3>الدعم</h3>
+        <p>
+          Phone: <a href="tel:+201128471221" class="support-number">+201128471221</a><br>
+          WhatsApp: <a href="https://wa.me/201128471221" target="_blank" class="support-number">+201128471221</a>
+        </p>
+        <p class="support-note">في حال وجود أي مشكلة، يرجى التواصل مع الدعم.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copy Right 2024 © By <strong class="px-1 sitename">Ebrahem Sobhy</strong> <span> All Rights Reserved</span></p>
+    </div>
+  </footer>
+  
+  <!-- سكريبت JavaScript الرئيسي مع استخدام Supabase -->
+  <script type="module">
+    // استيراد مكتبة Supabase
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    // إعدادات Supabase (قم بتعديل القيم التالية حسب إعدادات مشروعك)
+    const supabaseUrl = 'https://uutqempmnjcnqgrzrzqq.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1dHFlbXBtbmpjbnFncnpyenFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1MTUzMTAsImV4cCI6MjA1NjA5MTMxMH0.6E-gsoT9hq_-VsL_rrQN8hEmzmVz-0gcrcf548esSLw';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    // متغيرات عامة لتخزين بيانات المستخدم مؤقتًا والإجابة الصحيحة للمسألة
+    let countdownInterval;
+    let tempUserData = {};
+    let correctMathAnswer;
+
+    // ==================== نظام الإشعارات ====================
+    class NotificationManager {
+      constructor() {
+        this.queue = [];
+        this.isActive = false;
+      }
+      createNotification(type, message) {
+        const notification = document.createElement('div');
+        notification.className = `notification-center notification-${type}`;
+        notification.innerHTML = `
+          <div class="notification-icon">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="30" fill="none" stroke-width="3"></circle>
+            </svg>
+            <ion-icon name="${type === 'success' ? 'checkmark' : 'close'}-outline"></ion-icon>
+          </div>
+          <h3 class="notification-title">${type === 'success' ? 'عملية ناجحة' : 'خطأ في التنفيذ'}</h3>
+          <p class="notification-message">${message}</p>
+        `;
+        notification.addEventListener('click', () => this.dismiss());
+        return notification;
+      }
+      showNotification(type, message, duration = 3000) {
+        if (this.isActive) {
+          this.queue.push({ type, message, duration });
+          return;
+        }
+        this.isActive = true;
+        this.currentNotification = this.createNotification(type, message);
+        document.body.appendChild(this.currentNotification);
+        setTimeout(() => {
+          this.currentNotification.classList.add('active');
+        }, 50);
+        setTimeout(() => this.dismiss(), duration);
+      }
+      dismiss() {
+        if (!this.currentNotification) return;
+        this.currentNotification.classList.remove('active');
+        setTimeout(() => {
+          this.currentNotification.remove();
+          this.isActive = false;
+          this.processQueue();
+        }, 400);
+      }
+      processQueue() {
+        if (this.queue.length > 0) {
+          const next = this.queue.shift();
+          this.showNotification(next.type, next.message, next.duration);
+        }
+      }
+    }
+    const notificationSystem = new NotificationManager();
+    function showNotification(type, message, duration) {
+      notificationSystem.showNotification(type, message, duration);
+    }
+    // ==================== نهاية نظام الإشعارات ====================
+
+    // دالة لتوليد مسألة رياضية بسيطة للتحقق من أن المستخدم ليس بوت
+    function generateMathProblem() {
+      const num1 = Math.floor(Math.random() * 10) + 1;
+      const num2 = Math.floor(Math.random() * 10) + 1;
+      correctMathAnswer = num1 + num2;
+      const mathQuestion = document.getElementById('math-question');
+      if (mathQuestion) {
+        mathQuestion.innerText = `كم حاصل جمع ${num1} + ${num2}؟`;
+      }
+    }
+
+    // دالة لتبديل حالة زر التحميل (تعطيل/تمكين الزر)
+    function toggleLoading(state) {
+      const submitBtn = document.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = state;
+      }
+    }
+
+    // دالة لإرسال رمز التحقق عبر البريد الإلكتروني باستخدام EmailJS
+    async function sendVerificationEmail(email, code) {
+      try {
+        await emailjs.send("service_4de4l3i", "template_gqjxtul", { 
+          email: email,
+          verification_code: code 
+        });
+      } catch (error) {
+        console.error("فشل إرسال البريد:", error);
+        throw new Error("فشل إرسال البريد الإلكتروني");
+      }
+    }
+
+    // دالة بدء العد التنازلي لصلاحية رمز التحقق
+    function startCountdown(duration) {
+      const countdownElement = document.getElementById("countdown");
+      if (!countdownElement) return;
+      let remainingTime = duration;
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        countdownElement.textContent = `صلاحية الرمز: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        if (remainingTime <= 0) {
+          clearInterval(countdownInterval);
+          showNotification("error", "انتهت صلاحية الرمز");
+          const resendBtn = document.getElementById("resend-code");
+          if (resendBtn) {
+            resendBtn.style.display = "block";
+          }
+        }
+        remainingTime--;
+      }, 1000);
+    }
+
+    // عند تحميل الصفحة
+    document.addEventListener("DOMContentLoaded", () => {
+      // توليد مسألة رياضية جديدة
+      generateMathProblem();
+
+      // عند إرسال نموذج التسجيل
+      document.getElementById("signup-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        toggleLoading(true);
+
+        // جمع بيانات النموذج
+        const firstName       = document.getElementById("first-name").value.trim();
+        const secondName      = document.getElementById("second-name").value.trim();
+        const thirdName       = document.getElementById("third-name").value.trim();
+        const lastName        = document.getElementById("last-name").value.trim();
+        const username        = document.getElementById("username").value.trim();
+        const phone           = document.getElementById("phone").value.trim();
+        const fatherPhone     = document.getElementById("father-phone").value.trim();
+        const motherPhone     = document.getElementById("mother-phone").value.trim();
+        const governorate     = document.getElementById("governorate").value;
+        const email           = document.getElementById("email").value.trim();
+        const password        = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const mathAnswer      = parseInt(document.getElementById("math-answer").value.trim());
+
+        // التحقق من ملء جميع الحقول
+        if (!firstName || !secondName || !thirdName || !lastName || !username ||
+            !phone || !fatherPhone || !motherPhone || !governorate || !email ||
+            !password || !confirmPassword) {
+          showNotification("error", "يرجى ملء جميع البيانات");
+          toggleLoading(false);
+          return;
+        }
+
+        // التحقق من إجابة المسألة الرياضية
+        if (mathAnswer !== correctMathAnswer) {
+          showNotification("error", "إجابة المسألة الرياضية غير صحيحة.");
+          toggleLoading(false);
+          generateMathProblem(); // إعادة توليد المسألة
+          return;
+        }
+
+        // التحقق من صحة البريد الإلكتروني
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          showNotification("error", "البريد الإلكتروني غير صالح");
+          toggleLoading(false);
+          return;
+        }
+
+        // التحقق من صحة أرقام الهواتف (10-15 رقم)
+        const phoneRegex = /^\+?[0-9]{10,15}$/;
+        if (!phoneRegex.test(phone) || !phoneRegex.test(fatherPhone) || !phoneRegex.test(motherPhone)) {
+          showNotification("error", "رقم الهاتف غير صالح");
+          toggleLoading(false);
+          return;
+        }
+
+        // التحقق من طول كلمة المرور وتطابقها
+        if (password.length < 8) {
+          showNotification("error", "كلمة المرور يجب أن تكون 8 أحرف على الأقل");
+          toggleLoading(false);
+          return;
+        }
+        if (password !== confirmPassword) {
+          showNotification("error", "كلمتا المرور غير متطابقتين");
+          toggleLoading(false);
+          return;
+        }
+
+        // دمج الاسم الكامل
+        const fullName = `${firstName} ${secondName} ${thirdName} ${lastName}`;
+
+        // توليد رمز تحقق عشوائي (6 أرقام)
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+        // تخزين بيانات المستخدم مؤقتاً
+        tempUserData = {
+          username,
+          fullName,
+          phone,
+          fatherPhone,
+          motherPhone,
+          governorate,
+          email,
+          password,  // تنبيه: تخزين كلمة المرور بنص عادي غير آمن في البيئات الإنتاجية.
+          verificationCode
+        };
+
+        try {
+          // إرسال رمز التحقق إلى البريد الإلكتروني باستخدام EmailJS
+          await sendVerificationEmail(email, verificationCode);
+          showNotification("success", "تم إرسال رمز التحقق إلى بريدك الإلكتروني.");
+        } catch (error) {
+          showNotification("error", error.message);
+          toggleLoading(false);
+          return;
+        } finally {
+          toggleLoading(false);
+        }
+
+        // إخفاء صفحة التسجيل وعرض صفحة تأكيد البريد الإلكتروني
+        document.getElementById("registration-page").style.display = "none";
+        document.getElementById("email-confirmation-page").style.display = "block";
+
+        // بدء العد التنازلي إذا وُجد العنصر المخصص لذلك
+        if (document.getElementById("countdown")) {
+          startCountdown(180);
+        }
+      });
+
+      // عند الضغط على زر تأكيد البريد الإلكتروني
+      document.getElementById("confirm-btn").addEventListener("click", async () => {
+        const userCode = document.getElementById("confirmation-code").value.trim();
+        if (userCode !== tempUserData.verificationCode.toString()) {
+          showNotification("error", "كود التأكيد غير صحيح.");
+          return;
+        }
+
+        try {
+          // استخدام Supabase لإدخال بيانات المستخدم في جدول "pending_users"
+          const { data, error } = await supabase
+            .from('pending_users')
+            .insert([
+              {
+                username: tempUserData.username,
+                fullName: tempUserData.fullName,
+                phone: tempUserData.phone,
+                fatherPhone: tempUserData.fatherPhone,
+                motherPhone: tempUserData.motherPhone,
+                governorate: tempUserData.governorate,
+                email: tempUserData.email,
+                password: tempUserData.password,  // يُفضل تشفير كلمة المرور في الإنتاج.
+                emailVerified: true,
+                createdAt: new Date().toISOString(),
+                accountStatus: "pending"  // الحالة: في انتظار الموافقة.
+              }
+            ]);
+          if (error) {
+            showNotification("error", "فشل إرسال طلب الحساب: " + error.message);
+          } else {
+            showNotification("success", "تم إرسال طلب إنشاء الحساب للمراجعة. سيتم تفعيل الحساب وإعلامك عند الموافقة.");
+            // إخفاء صفحة تأكيد البريد وعرض صفحة حالة الحساب
+            document.getElementById("email-confirmation-page").style.display = "none";
+            document.getElementById("account-status-page").style.display = "block";
+            document.getElementById("display-name").innerText = tempUserData.username;
+          }
+        } catch (error) {
+          showNotification("error", "فشل إرسال طلب الحساب: " + error.message);
+        }
+      });
+
+      // (اختياري) إعادة إرسال رمز التحقق
+      const resendBtn = document.getElementById("resend-code");
+      if (resendBtn) {
+        resendBtn.addEventListener("click", async () => {
+          try {
+            const newCode = Math.floor(100000 + Math.random() * 900000);
+            tempUserData.verificationCode = newCode;
+            await sendVerificationEmail(tempUserData.email, newCode);
+            showNotification("success", "تم إعادة إرسال الرمز");
+            if (document.getElementById("countdown")) {
+              startCountdown(180);
+            }
+            resendBtn.style.display = "none";
+          } catch (error) {
+            showNotification("error", error.message);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
