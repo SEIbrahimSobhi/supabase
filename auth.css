@@ -1,0 +1,730 @@
+
+/* ===================================
+   متغيرات جذرية
+=================================== */
+:root {
+  --card-width: 300px;
+  --card-widtha: min(90vw, 400px);
+}
+
+/* ===================================
+   إعادة التهيئة الأساسية
+=================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Tajawal', sans-serif;
+}
+
+body {
+  background-color: #080c14;
+  color: #fff;
+  direction: rtl;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   إشعار النجاح/الخطأ (Notifications)
+=================================== */
+.notification-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1000;
+  text-align: center;
+  min-width: 320px;
+  max-width: 90%;
+  pointer-events: auto;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.notification-center.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* تحسينات الوصولية */
+.notification-center[aria-hidden="false"] {
+  display: block;
+}
+
+.notification-center[aria-hidden="true"] {
+  display: none;
+}
+
+.notification-icon {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1.5rem;
+}
+
+.notification-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.notification-icon circle {
+  stroke-dasharray: 188;
+  stroke-dashoffset: 188;
+  transition: stroke-dashoffset 1.2s ease-out;
+}
+
+.notification-icon ion-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 2.8rem;
+  opacity: 0;
+  transition: all 0.3s ease-out 0.4s;
+}
+
+.notification-center.active .notification-icon circle {
+  stroke-dashoffset: 0;
+}
+
+.notification-center.active .notification-icon ion-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.notification-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.notification-message {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* ألوان الإشعارات */
+.notification-success .notification-icon circle {
+  stroke: #22c55e;
+}
+
+.notification-success .notification-icon ion-icon {
+  color: #22c55e;
+}
+
+.notification-error .notification-icon circle {
+  stroke: #ef4444;
+}
+
+.notification-error .notification-icon ion-icon {
+  color: #ef4444;
+}
+
+/* ===================================
+   طبقة التعتيم على الصورة (Overlay)
+   - تُضاف على كلٍ من صور الموبايل والديسكتوب
+=================================== */
+.mobile-image-container::after,
+.desktop-image-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* طبقة داكنة */
+  pointer-events: none;
+  z-index: 1; /* أعلى الصورة */
+}
+
+/* ===================================
+   صورة الموبايل (للشاشات الصغيرة)
+=================================== */
+.mobile-image-container {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.mobile-image-container img {
+  width: 100%;
+  height: 345px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 0; /* لكي تظهر الطبقة فوق الصورة */
+}
+
+/* إخفاء صورة الموبايل على الشاشات الكبيرة */
+@media (min-width: 992px) {
+  .mobile-image-container {
+    display: none;
+  }
+}
+
+/* ===================================
+   صورة الديسكتوب (للشاشات الكبيرة)
+=================================== */
+.desktop-image-container {
+  position: relative;
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .desktop-image-container {
+    display: block;
+    width: 40.33%;
+    position: relative;
+  }
+  .desktop-image-container img {
+    width: 100%;
+    height: 145vh;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+  }
+}
+
+/* ===================================
+   الحاوية الرئيسية (للكمبيوتر)
+   تقسيم الصفحة إلى عمودين
+=================================== */
+.main-desktop {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===================================
+   قسم النموذج (Form)
+=================================== */
+.form-container {
+  width: 100%;
+  padding: 20px;
+  margin: 20px;
+}
+
+@media (min-width: 992px) {
+  .form-container {
+    width: 52.67%;
+  }
+}
+
+.form-wrapper {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* ===================================
+   رأس النموذج (العنوان + النص)
+=================================== */
+.form-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.form-header h1 span.white {
+  color: #fff;
+}
+
+.form-header h1 span.blue {
+  color: #3498db;
+}
+
+.form-header p {
+  font-size: 15px;
+  color: #ccc;
+}
+
+/* ===================================
+   الحقول
+=================================== */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.row .form-group {
+  flex: 1;
+  position: relative;
+}
+
+/* الحقول الكاملة العرض */
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.row.small-gap {
+  margin-bottom: 10px;
+}
+
+/* تصميم الحقول (خط سفلي + حركة عند التركيز) */
+.form-control,
+.governorate-select {
+  width: 100%;
+  padding: 12px;
+  padding-right: 50px; /* زيادة المسافة لمنع التصاق النص بالأيقونة */
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #555;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  text-align: right;
+  transition: border-bottom-color 0.3s, transform 0.3s;
+}
+
+.form-control:focus,
+.governorate-select:focus {
+  border-bottom-color: #3498db;
+  transform: scale(1.02);
+}
+
+.form-control::placeholder,
+.governorate-select::placeholder {
+  color: transparent;
+}
+
+/* التسمية العائمة (Label) */
+.form-label {
+  position: absolute;
+  right: 50px; /* موازاة مع الـ padding-right */
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+  color: #aaa;
+  pointer-events: none;
+  font-size: 20px;
+}
+
+.form-control:focus ~ .form-label,
+.form-control:not(:placeholder-shown) ~ .form-label,
+.governorate-select:focus ~ .form-label,
+.governorate-select:not(:placeholder-shown) ~ .form-label {
+  top: 0;
+  transform: translateY(-100%);
+  font-size: 15px;
+  color: #3498db;
+}
+
+/* أيقونات الحقول */
+.form-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  font-size: 16px;
+}
+
+.form-control:focus ~ .form-icon,
+.form-control:not(:placeholder-shown) ~ .form-icon {
+  color: #3498db;
+  transform: translateY(-55%);
+}
+
+/* ===================================
+   القائمة المنسدلة (Select) للمحافظات
+=================================== */
+.governorate-select-wrapper {
+  position: relative;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.governorate-select {
+  width: 100%;
+  padding: 12px 50px 12px 15px;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  text-align: right;
+  direction: rtl;
+}
+
+/* تحسين شكل زر "اختر محافظة" */
+.governorate-select:hover {
+  border-color: #3b82f6;
+}
+
+.governorate-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  transform: none;
+}
+
+.governorate-select-wrapper .form-label {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  font-size: 14px;
+}
+
+.governorate-select:focus + .form-label,
+.governorate-select:valid + .form-label {
+  top: -10px;
+  font-size: 12px;
+  color: #3b82f6;
+  background: linear-gradient(to bottom, #111827 50%, transparent 50%);
+}
+
+/* سهم الاختيار */
+.governorate-select-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+  transition: transform 0.3s ease;
+}
+
+/* شريط التمرير */
+.governorate-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.governorate-select::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.governorate-select::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 4px;
+}
+
+/* تحسينات خيارات القائمة */
+.governorate-select option {
+  font-size: 16px;
+  padding: 16px 20px;
+  line-height: 1.6;
+  border-bottom: 1px solid #2d3748;
+  transition: all 0.2s ease;
+  direction: rtl;
+  text-align: right;
+}
+
+.governorate-select option:hover {
+  background: #3b82f6 !important;
+  color: #fff !important;
+  transform: scale(1.02);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.governorate-select option:checked {
+  background: #1d4ed8 !important;
+  font-weight: bold;
+  position: relative;
+}
+
+.governorate-select option:focus {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+/* ===================================
+   الأزرار (إنشاء حساب / فيديو)
+=================================== */
+.submit-btn {
+  width: 180px;
+  padding: 16px 0;
+  background-color: #007aff;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  margin-right: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background-color: rgba(0, 122, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.submit-btn:active {
+  border-color: #1d4ed8;
+  color: #1d4ed8;
+  background-color: rgba(29, 78, 216, 0.05);
+  transform: translateY(0);
+}
+
+.video-btn {
+  width: 180px;
+  padding: 16px 0;
+  background-color: #f39c12;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.video-btn:hover {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background-color: rgba(243, 156, 18, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.video-btn:active {
+  border-color: #d97706;
+  color: #d97706;
+  background-color: rgba(217, 119, 6, 0.05);
+  transform: translateY(0);
+}
+
+/* تأثير الإضاءة الداخلية للأزرار */
+.submit-btn::before,
+.video-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover::before {
+  border-color: #3b82f6;
+}
+
+.video-btn:hover::before {
+  border-color: #f59e0b;
+}
+
+/* ===================================
+   رابط تسجيل الدخول
+=================================== */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-link span {
+  color: #6b7280;
+  margin-right: 5px;
+}
+
+.login-link a {
+  color: #f1c40f;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ===================================
+  الصفحة (Footer)
+=================================== */
+  footer {
+    background-color: #080c14;
+    color: #fff;
+    padding: 30px 20px;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 20px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .footer-brand img {
+    width: 60px;
+  }
+  .brand-text h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  .brand-text h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  .footer-support h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  .footer-support p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+  }
+  /* جعل لون الرقم مختلفاً وتفعيل الرابط على الرقم فقط */
+  .support-number {
+    color: #f39c12; /* لون مميز للرقم */
+    text-decoration: none;
+  }
+  .support-number:hover {
+    text-decoration: underline;
+  }
+  .support-note {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 8px;
+  }
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+
+  /* تحسين التصميم للشاشات الصغيرة */
+  @media (max-width: 600px) {
+    .footer-top {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .footer-brand {
+      margin-bottom: 15px;
+    }
+    .footer-support {
+      margin-top: 15px;
+    }
+    .brand-text h2 {
+      font-size: 1.6rem;
+    }
+    .brand-text h4 {
+      font-size: 0.9rem;
+    }
+    .footer-support h3 {
+      font-size: 1.1rem;
+    }
+    .footer-support p {
+      font-size: 0.9rem;
+    }
+  }
+
+/* ===================================
+   تحسينات للشاشات الصغيرة (أقل من 768px)
+   بدون تغيير على الشاشات الكبيرة
+=================================== */
+@media (max-width: 768px) {
+  /* جعل القسم الرئيسي عمودي */
+  .main-desktop {
+    flex-direction: column;
+  }
+
+  /* جعل صورة الموبايل أصغر قليلاً وتوضع أعلى الصفحة */
+  .mobile-image-container {
+    margin: 10px auto;
+  }
+  .mobile-image-container img {
+    height: 250px; /* تصغير ارتفاع الصورة */
+    border-radius: 8px;
+  }
+
+  /* الحقول تحت بعضها */
+  .row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* تكبير حجم حاوية النموذج وتوسيطها */
+  .form-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  /* تقليل حجم العنوان والنص أسفل العنوان (كان كبيرًا جدًا) */
+  .form-header h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .form-header p {
+    font-size: 14px;
+  }
+
+  /* تقليل حجم الحقول قليلاً */
+  .form-control,
+  .governorate-select {
+    font-size: 15px;
+    padding: 12px;
+    padding-right: 50px; /* الحفاظ على مسافة للأيقونة */
+  }
+
+  /* تقليل حجم التسمية العائمة (Label) */
+  .form-label {
+    font-size: 16px;
+  }
+
+  /* الأزرار بعرض كامل مع تقليل حجم الخط */
+  .submit-btn,
+  .video-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 14px 0;
+  }
+
+  /* تكبير/تصغير رابط تسجيل الدخول */
+  .login-link {
+    font-size: 14px;
+  }
+
+  /* تكبير/تصغير حجم التذييل */
+  footer {
+    font-size: 12px;
+  }
+
+  /* تحسين شكل زر "اختر محافظة" وقائمته */
+  .governorate-select {
+    font-size: 15px;
+    padding: 12px 50px 12px 20px;
+    border-radius: 8px;
+  }
+  .governorate-select-wrapper .form-label {
+    font-size: 14px;
+  }
+}
